@@ -31,7 +31,7 @@ raw_file <- readLines(con = "suites_dw_Table1.txt")
 
 # What do you need to replace the two question marks with in order to extract
 # the first two letters?
-substr(x = raw_file,start = 1,stop = 3)
+substr(x = raw_file,start = 1,stop = 2)
 
 # The next step is then to find out *which* line starts with "--", and pick out
 # the first one. This can be done in a nice little pipe, where you have to fill
@@ -49,9 +49,8 @@ L <-
 # "raw_file"-vector on a separate line we also provide the sep-argument, where
 # we put the "end-of-line"-character "\n". We also need to come up with a file
 # name. Replace the question marks:
-saved_lines <- raw_file[1:(L-2)]
 
-cat(saved_lines, sep = "\n", file = "variable_description.txt")
+cat(raw_file[1:(L-2)], sep = "\n", file = "variable_description.txt")
 
 
 
@@ -74,7 +73,8 @@ variable_names <-
   unlist() %>% 
   str_trim()
 
-# Read the data. One way to do this is to rewrite the data to a new .csv-file
+# Read the data. 
+# One way to do this is to rewrite the data to a new .csv-file
 # with comma-separators for instance using cat() again, with the variable names
 # from the step above on the first line (see for instance paste() for collapsing
 # that vector to a single string with commas as separators).
@@ -85,7 +85,7 @@ variable_names <-
 # super for this kind of search-and-replace. Replace the question mark below.
 
 comma_separated_values <- 
-  ? %>% 
+  raw_file[15:length(raw_file)] %>% 
   gsub("\\|", ",", .) %>% 
   gsub(" ", "", .)
 
@@ -98,11 +98,11 @@ comma_separated_values_with_names <-
     comma_separated_values)    
 
 # Replace the question mark and come up with a file name
-cat(?, sep = "\n", file = "?")
+cat(comma_separated_values_with_names, sep = "\n", file = "updated_file.txt")
 
 # Read the file back in as a normal csv-file. The readr-package is part of
 # tidyverse, so it is already loaded.
-galaxies <- read_csv("?")
+galaxies <- read_csv("updated_file.txt")
 
 
 # You should now have a nice, clean data frame with galaxies and their

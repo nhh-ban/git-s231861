@@ -31,15 +31,21 @@ raw_file <- readLines(con = "suites_dw_Table1.txt")
 
 # What do you need to replace the two question marks with in order to extract
 # the first two letters?
-substr(x = raw_file, start = ?, stop = ?)
+substr(x = raw_file,start = 1,stop = 3)
 
 # The next step is then to find out *which* line starts with "--", and pick out
 # the first one. This can be done in a nice little pipe, where you have to fill
 # out the question marks and the missing function names:
 L <- 
-  (substr(x = raw_file, start = ?, stop = ?) == "?") %>% 
+  (substr(x = raw_file, start = 1, stop = 2) == "--") %>% 
   function_that_returns_the_index_of_all_TRUES %>% 
   function_that_picks_out_the_minimum_value
+
+#Line for "--" starts at 14.
+L <-
+  (substr(x = raw_file, start = 1, stop = 2) == "--") %>%
+  which() %>%
+  min()
 
 # Save the variable descriptions (i.e. the information in lines 1:(L-2)) in a
 # text-file for future reference using the cat()-function. The first argument is

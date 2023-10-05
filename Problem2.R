@@ -121,3 +121,8 @@ galaxies %>%
   ggplot(aes(x = a_26)) +
   geom_histogram()
 
+# The value represents the linear diameter, and when this value increases,
+# the size of the galaxy gets smaller. This is caused by that it's a longer
+# distance to the center.
+
+# Conclussion is that the count for galaxies drops as the values increases.

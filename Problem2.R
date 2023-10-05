@@ -111,7 +111,7 @@ galaxies <- read_csv("updated_file.txt")
 
 # Problem 3
 
-# Create a plot - histogram to vizualise the different size of the galaxy
+# Create a plot - histogram to visualize the different size of the galaxy
 # By using a_26 on the x-axes, we get to see the count for the different sizes
 # The higher the number, the smaller the galaxy.
 

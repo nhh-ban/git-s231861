@@ -49,7 +49,11 @@ L <-
 # "raw_file"-vector on a separate line we also provide the sep-argument, where
 # we put the "end-of-line"-character "\n". We also need to come up with a file
 # name. Replace the question marks:
-cat(?, sep = "\n", file = "?")
+saved_lines <- raw_file[1:(L-2)]
+
+cat(saved_lines, sep = "\n", file = "variable_description.txt")
+
+
 
 # Extract the variable names (i.e. line (L-1)), store the names in a vector.
 
@@ -66,7 +70,7 @@ cat(?, sep = "\n", file = "?")
 # apply the str_trim()-function (also in the stringr-package) to get rid of all
 # the empty space. Replace the question mark below:
 variable_names <- 
-  str_split(string = ?, pattern = "\\|") %>% 
+  str_split(string = raw_file[L-1], pattern = "\\|") %>% 
   unlist() %>% 
   str_trim()
 

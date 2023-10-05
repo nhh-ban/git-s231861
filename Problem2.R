@@ -109,4 +109,15 @@ galaxies <- read_csv("updated_file.txt")
 # characteristics in memory. As of March 2022 it should contain 796
 # observations.
 
+# Problem 3
+
+# Create a plot - histogram to vizualise the different size of the galaxy
+# By using a_26 on the x-axes, we get to see the count for the different sizes
+# The higher the number, the smaller the galaxy.
+
+library(ggplot2)
+
+galaxies %>%
+  ggplot(aes(x = a_26)) +
+  geom_histogram()
 

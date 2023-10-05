@@ -36,10 +36,6 @@ substr(x = raw_file,start = 1,stop = 3)
 # The next step is then to find out *which* line starts with "--", and pick out
 # the first one. This can be done in a nice little pipe, where you have to fill
 # out the question marks and the missing function names:
-L <- 
-  (substr(x = raw_file, start = 1, stop = 2) == "--") %>% 
-  function_that_returns_the_index_of_all_TRUES %>% 
-  function_that_picks_out_the_minimum_value
 
 #Line for "--" starts at 14.
 L <-

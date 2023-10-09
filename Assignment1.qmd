@@ -1,0 +1,119 @@
+---
+title: "Assignment 1"
+author: "s231861"
+format: html
+---
+
+## Disclaimer
+
+Every code for assignment 1 can be found under "Assignment_1git.R".
+
+## Problem 1
+
+Date: 04.10.23
+
+Name: Daniel Bømark
+
+Student number: s231861
+
+## Problem 2
+
+Solving this problem I loaded tidyverse in advance. First step is to load the
+the file into our memory.
+
+```{r}
+library(tidyverse)
+raw_file <- readLines(con = "suites_dw_Table1.txt")
+```
+
+Identify the line number L of the separator line between the column names and
+the rest of the data table.
+
+```{r}
+#| eval: false
+substr(x = raw_file,start = 1,stop = 2)
+```
+
+The next step is then to find out *which* line starts with "--", and pick out
+the first one.
+
+```{r}
+L <-
+  (substr(x = raw_file, start = 1, stop = 2) == "--") %>%
+  which() %>%
+  min()
+```
+
+Save the variable descriptions (i.e. the information in lines 1:(L-2)) in a
+text-file for future reference using the cat()-function.
+
+```{r}
+cat(raw_file[1:(L-2)], sep = "\n", file = "variable_description.txt")
+```
+
+Extract the variable names (i.e. line (L-1)), store the names in a vector.
+
+```{r}
+variable_names <- 
+  str_split(string = raw_file[L-1], pattern = "\\|") %>%
+  unlist() %>%
+  str_trim()
+```
+
+Read the data. 
+
+```{r}
+comma_separated_values <-
+  raw_file[15:length(raw_file)] %>% 
+  gsub("\\|", ",", .) %>% 
+  gsub(" ", "", .)
+```
+
+# We then just add the variable names (separated with commas) on top
+
+```{r}
+comma_separated_values_with_names <- 
+  c(paste(variable_names, collapse = ","),
+    comma_separated_values)   
+```
+
+cat()-the whole ting to a .csv-file in the same way as we did with the
+variable descriptions above.
+
+```{r}
+cat(comma_separated_values_with_names, sep = "\n", file = "updated_file.txt")
+```
+
+Read the file back in as a normal csv-file.
+
+```{r}
+galaxies <- read_csv("updated_file.txt")
+```
+
+
+## Problem 3
+
+Loading in needed packages first (ggplot2).
+
+Create a plot - histogram to visualize the different size of the galaxy
+by using a_26 on the x-axes, we get to see the count for the different sizes
+the higher the number, the smaller the galaxy.
+
+```{r}
+library(ggplot2)
+
+galaxies %>%
+  ggplot(aes(x = a_26)) +
+  geom_histogram()
+```
+
+The value represents the linear diameter, and when this value increases,
+the size of the galaxy gets smaller. This is caused by that it's a longer
+distance to the center.
+
+Conclussion is that the count for galaxies drops as the values increases.
+
+
+## Problem 4
+
+Didn't manage to put it in here. Can be found in the R.file..

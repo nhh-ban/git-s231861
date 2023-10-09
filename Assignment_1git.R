@@ -71,3 +71,58 @@ galaxies %>%
 # distance to the center.
 
 # Conclussion is that the count for galaxies drops as the values increases.
+
+
+# Problem 4 ----
+# Question 4.1 - read the data in to R
+
+library(tidyverse) # loading req. functions
+
+raw_file_2 <- readLines(con = "UCNG_Table4.txt") # Load to memory
+
+substr(x = raw_file_2,start = 1,stop = 2)
+
+L_2 <- # Starts at row 2
+  (substr(x = raw_file_2, start = 1, stop = 2) == "--") %>%
+  which() %>%
+  min()
+
+# Need to remove row 2:
+comma_separated_values_2 <- # Remove row 2, and replace all | w/
+  # ',' and remove all empty spaces.
+  raw_file_2[-2] %>% # Here I remove row 2, as it consists of "--"
+  gsub("\\|", ",", .) %>% # Replace |
+  gsub(" ", "", .) # Use gsub to search and replace.
+
+# cat()-the whole ting to a .csv-file in the same way as we did with the
+# variable descriptions above.
+cat(comma_separated_values_2, sep = "\n", file = "updated_file_2.txt")
+
+# Create a data frame
+Edwin_Hubble <- read.csv("updated_file_2.txt")
+
+# Combine the two df so we can create a plot w/ cz against the D:
+combined_df <- merge(galaxies, Edwin_Hubble, by = "name") # Use merge() and then
+# by names to indicate that the df are using the same names.
+
+combined_df %>%
+  ggplot(aes(x = D, y = cz)) +
+  geom_point() +
+  labs(x = "Distance (D)", y = "Velocity (cz)") +
+  theme_classic() +
+  geom_smooth()
+
+# Solution:
+# The plot shows that galaxies w/ higher speed is further away from us
+# The velocity tells how fast the galaxies are mowing away from us. 
+
+
+
+# Question 4.2
+# Compare our df w/ public values
+# Hubble's law for expansion v = HD
+# We want to find the Hubble's constant value
+
+# By taking the mean of every value
+Hubbles_expansion <- mean(combined_df$cz/combined_df$D)
+# The public says 70 (km/s)Mpc, which in our case gives a diff of 15 units. 

@@ -16,7 +16,7 @@ library(tidyverse)    # Contains most of what we need.
 # the file does not end with an "end of line"-character (EOL). This does not
 # seem to pose a problem later, and it seems that we can silece the warning by
 # switchin off the "warn"-argument. Do that if you wish.
-raw_file <- readLines(con = "suites_dw_Table1.txt")
+raw_file <- readLines(con = "?")
 
 # Identify the line number L of the separator line between the column names and
 # the rest of the data table.
@@ -31,17 +31,15 @@ raw_file <- readLines(con = "suites_dw_Table1.txt")
 
 # What do you need to replace the two question marks with in order to extract
 # the first two letters?
-substr(x = raw_file,start = 1,stop = 2)
+substr(x = raw_file, start = ?, stop = ?)
 
 # The next step is then to find out *which* line starts with "--", and pick out
 # the first one. This can be done in a nice little pipe, where you have to fill
 # out the question marks and the missing function names:
-
-#Line for "--" starts at 14.
-L <-
-  (substr(x = raw_file, start = 1, stop = 2) == "--") %>%
-  which() %>%
-  min()
+L <- 
+  (substr(x = raw_file, start = ?, stop = ?) == "?") %>% 
+  function_that_returns_the_index_of_all_TRUES %>% 
+  function_that_picks_out_the_minimum_value
 
 # Save the variable descriptions (i.e. the information in lines 1:(L-2)) in a
 # text-file for future reference using the cat()-function. The first argument is
@@ -49,10 +47,7 @@ L <-
 # "raw_file"-vector on a separate line we also provide the sep-argument, where
 # we put the "end-of-line"-character "\n". We also need to come up with a file
 # name. Replace the question marks:
-
-cat(raw_file[1:(L-2)], sep = "\n", file = "variable_description.txt")
-
-
+cat(?, sep = "\n", file = "?")
 
 # Extract the variable names (i.e. line (L-1)), store the names in a vector.
 
@@ -69,12 +64,11 @@ cat(raw_file[1:(L-2)], sep = "\n", file = "variable_description.txt")
 # apply the str_trim()-function (also in the stringr-package) to get rid of all
 # the empty space. Replace the question mark below:
 variable_names <- 
-  str_split(string = raw_file[L-1], pattern = "\\|") %>% 
+  str_split(string = ?, pattern = "\\|") %>% 
   unlist() %>% 
   str_trim()
 
-# Read the data. 
-# One way to do this is to rewrite the data to a new .csv-file
+# Read the data. One way to do this is to rewrite the data to a new .csv-file
 # with comma-separators for instance using cat() again, with the variable names
 # from the step above on the first line (see for instance paste() for collapsing
 # that vector to a single string with commas as separators).
@@ -85,7 +79,7 @@ variable_names <-
 # super for this kind of search-and-replace. Replace the question mark below.
 
 comma_separated_values <- 
-  raw_file[15:length(raw_file)] %>% 
+  ? %>% 
   gsub("\\|", ",", .) %>% 
   gsub(" ", "", .)
 
@@ -98,31 +92,15 @@ comma_separated_values_with_names <-
     comma_separated_values)    
 
 # Replace the question mark and come up with a file name
-cat(comma_separated_values_with_names, sep = "\n", file = "updated_file.txt")
+cat(?, sep = "\n", file = "?")
 
 # Read the file back in as a normal csv-file. The readr-package is part of
 # tidyverse, so it is already loaded.
-galaxies <- read_csv("updated_file.txt")
+galaxies <- read_csv("?")
 
 
 # You should now have a nice, clean data frame with galaxies and their
 # characteristics in memory. As of March 2022 it should contain 796
 # observations.
 
-# Problem 3
 
-# Create a plot - histogram to visualize the different size of the galaxy
-# By using a_26 on the x-axes, we get to see the count for the different sizes
-# The higher the number, the smaller the galaxy.
-
-library(ggplot2)
-
-galaxies %>%
-  ggplot(aes(x = a_26)) +
-  geom_histogram()
-
-# The value represents the linear diameter, and when this value increases,
-# the size of the galaxy gets smaller. This is caused by that it's a longer
-# distance to the center.
-
-# Conclussion is that the count for galaxies drops as the values increases.
